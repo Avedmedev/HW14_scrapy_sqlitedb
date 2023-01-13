@@ -14,8 +14,8 @@ class SpiderPipeLine(object):
     def process_item(self, item, spider):
         adapter = ItemAdapter(item)
 
-        if 'author' in adapter.keys():
-            if not self.session.query(Quote).filter(Quote.content == adapter['quote']).first():
+        if not self.session.query(Quote).filter(Quote.content == adapter['quote']).first():
+            if 'author' in adapter.keys():
                 author = self.session.query(Author).filter(Author.fullname == adapter['author']).first()
                 if not author:
                     author = Author(fullname=adapter['author'])
