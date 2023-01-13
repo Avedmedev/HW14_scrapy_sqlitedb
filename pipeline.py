@@ -21,7 +21,7 @@ class SpiderPipeLine(object):
                     author = Author(fullname=adapter['author'])
                     self.session.add(author)
                     self.session.commit()
-                    author = self.session.query(Author).filter(Author.fullname == adapter['author']).first()
+                    self.session.refresh(author)
 
                 tags_obj = []
                 for new_tag in adapter['tags']:
@@ -30,7 +30,7 @@ class SpiderPipeLine(object):
                         tag = Tag(tagname=new_tag)
                         self.session.add(tag)
                         self.session.commit()
-                        tag = self.session.query(Tag).filter(Tag.tagname == new_tag).first()
+                        self.session.refresh(tag)
                     tags_obj.append(tag)
 
                 quote = Quote(content=adapter['quote'], tags=tags_obj, author=author)
